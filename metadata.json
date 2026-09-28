@@ -1,0 +1,6 @@
+{
+  "name": "SkillSync",
+  "description": "Different Skills. Same Goals. AI-powered professional collaboration, team formation, and opportunity discovery platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

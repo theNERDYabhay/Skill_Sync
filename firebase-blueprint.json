@@ -1,0 +1,111 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile storing authentication identity, skills, collaboration preferences, and portfolio links.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "username": { "type": "string" },
+        "name": { "type": "string" },
+        "avatar": { "type": "string" },
+        "headline": { "type": "string" },
+        "bio": { "type": "string" },
+        "role": { "type": "string", "enum": ["candidate", "team_lead", "admin"] },
+        "mode": { "type": "string", "enum": ["solo", "team"] },
+        "availability": { "type": "string" },
+        "skills": { "type": "array" },
+        "lookingForSkills": { "type": "array" },
+        "goals": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "email", "name", "role", "mode"]
+    },
+    "Team": {
+      "title": "Team",
+      "description": "Collaboration squad or hackathon team.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "tagline": { "type": "string" },
+        "mission": { "type": "string" },
+        "leaderId": { "type": "string" },
+        "techStack": { "type": "array" },
+        "members": { "type": "array" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "name", "leaderId"]
+    },
+    "Opportunity": {
+      "title": "Opportunity",
+      "description": "Hackathon, contest, startup search, or open-source fellowship.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "organizer": { "type": "string" },
+        "type": { "type": "string" },
+        "prizePool": { "type": "string" },
+        "deadline": { "type": "string" },
+        "requiredSkills": { "type": "array" }
+      },
+      "required": ["id", "title", "organizer", "type"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Chat message sent in direct conversation or collaboration channel.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderAvatar": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "conversationId", "senderId", "content", "createdAt"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Administrative audit event tracking actions and security checks.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "adminId": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "targetType": { "type": "string" },
+        "description": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "adminId", "action", "timestamp", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile documents keyed by Firebase Auth UID or system ID."
+    },
+    "/teams/{teamId}": {
+      "schema": "Team",
+      "description": "Squad profiles created and managed by team leads."
+    },
+    "/opportunities/{oppId}": {
+      "schema": "Opportunity",
+      "description": "Hackathons, contests, and collaboration opportunities."
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Messages subcollection under each conversation."
+    },
+    "/audit_logs/{auditId}": {
+      "schema": "AuditLog",
+      "description": "Audit log entries for administrative activities."
+    }
+  }
+}
